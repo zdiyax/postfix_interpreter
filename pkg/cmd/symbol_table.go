@@ -86,6 +86,17 @@ func (h *SymbolTable) Insert(key string, value string) {
 }
 
 // Get returns the value by a given key if it exists
+/*
+	GET(key):
+	1. i = getIndex(key)
+	2. if data[i] is not null
+	3. 		starting_node = data[i]
+	4.		while
+	5.			if starting_node.key == key return starting_node.value
+	6.			if starting_node.next is null break
+	7.			starting_node = starting_node.next
+	8.		return false < value not found
+*/
 func (h *SymbolTable) Get(key string) (string, bool) {
 	index := getIndex(key)
 	if h.Data[index] != nil {
