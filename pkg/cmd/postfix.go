@@ -16,12 +16,12 @@ import (
 var Red = color.New(color.FgRed)
 var Black = color.New(color.BgBlack)
 var boldRed = Red.Add(color.Bold)
-var blackFunc = color.New(color.BgBlack).SprintFunc()
+var red = color.New(color.BgRed).SprintFunc()
 var greenFunc = color.New(color.FgGreen).SprintFunc()
 
 // Loader message to indicate work in progress
 var calculationSpinner = wow.New(os.Stdout, spin.Get(spin.Dots), greenFunc(" Calculating ..."))
-var clearingSpinner = wow.New(os.Stdout, spin.Get(spin.Dots), blackFunc(" Clearing session ..."))
+var clearingSpinner = wow.New(os.Stdout, spin.Get(spin.Dots), red(" Clearing session ..."))
 
 // RunInterpreter starts calculating the expression
 func RunInterpreter() {
@@ -39,7 +39,6 @@ func RunInterpreter() {
 	jsonFile, err := os.Open("session.json")
 	if err != nil {
 		session = NewSession()
-		fmt.Println("no session, opening a new one")
 	} else {
 		time.Sleep(1 * time.Second)
 
@@ -64,10 +63,12 @@ func RunInterpreter() {
 		// sleeping for a second-two to imitate
 		calculationSpinner.Start()
 		time.Sleep(1 * time.Second)
-
+		fmt.Println()
 		session.Input(args[1:])
-	case "print":
-		session.Print()
+	case "stack":
+		session.PrintStack()
+	case "symbol_table":
+		session.PrintSymbolTable()
 	case "clear":
 		// a little spinner to indicate work in progress
 		clearingSpinner.Start()
@@ -92,7 +93,8 @@ func help() {
 	h := `
 	Commands:
 		$ postfix input 		- input a Postfix++ expression
-		$ postfix print 		- prints the current state of stack
+		$ postfix stack 		- prints the current state of stack
+		$ postfix symbol_table 	- prints the current state of symbol table
 		$ postfix clear  		- clears the current session purging the variables
 	Usage:
 		$ postfix input <expression_item> <expression_item> ... <expression_item>

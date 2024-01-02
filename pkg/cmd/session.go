@@ -11,7 +11,8 @@ import (
 // S interface describes what session can do
 type S interface {
 	Input(expression []string)
-	Print()
+	PrintStack()
+	PrintSymbolTable()
 	Clear()
 
 	ConvertOutputAndVariables(variable1, variable2 string) (int, int)
@@ -41,7 +42,7 @@ func (s *Session) Input(expression []string) {
 		_, err := strconv.Atoi(token)
 		if err == nil {
 			s.Stack.Push(token)
-			s.Print()
+			s.PrintStack()
 		} else {
 			if IsValidOperator(token) {
 				stringValue1, exists := s.Stack.Pop()
@@ -62,19 +63,19 @@ func (s *Session) Input(expression []string) {
 
 					result := value1 + value2
 					s.Stack.Push(strconv.Itoa(result))
-					s.Print()
+					s.PrintStack()
 				case "-":
 					value1, value2 := s.ConvertOutputAndVariables(stringValue1, stringValue2)
 
 					result := value1 - value2
 					s.Stack.Push(strconv.Itoa(result))
-					s.Print()
+					s.PrintStack()
 				case "*":
 					value1, value2 := s.ConvertOutputAndVariables(stringValue1, stringValue2)
 
 					result := value1 * value2
 					s.Stack.Push(strconv.Itoa(result))
-					s.Print()
+					s.PrintStack()
 				case "/":
 					value1, value2 := s.ConvertOutputAndVariables(stringValue1, stringValue2)
 
@@ -83,7 +84,7 @@ func (s *Session) Input(expression []string) {
 					// illustrative enough.
 					result := value1 / value2
 					s.Stack.Push(strconv.Itoa(result))
-					s.Print()
+					s.PrintStack()
 				case "=":
 					// do an assignment here
 					s.AssignValueToAVariable(stringValue2, stringValue1)
@@ -103,7 +104,7 @@ func (s *Session) Input(expression []string) {
 }
 
 // Print prints the current content of the stack
-func (s *Session) Print() {
+func (s *Session) PrintStack() {
 	// Result is calculated by unpacking the Stack and doing all the operations
 	tempStack := *s.Stack
 	fmt.Printf("[ ")
@@ -118,6 +119,11 @@ func (s *Session) Print() {
 
 	}
 	fmt.Printf("]\n")
+}
+
+// Print prints the current content of the stack
+func (s *Session) PrintSymbolTable() {
+	fmt.Print(s.Variables.String())
 }
 
 // Clear purges the session, reinstantiating the stack and symbol table
