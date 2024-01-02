@@ -51,18 +51,32 @@ func (h *SymbolTable) String() string {
 }
 
 // Insert inserts a variable by a given variable name (key) and its value
+/*
+	INSERT(key, value):
+	1. i = getIndex(key)
+	2. if data[i] is null
+	3. 		data[i] = new Node(key, value)
+	4. else
+	5. 		starting_node = data[i]
+	6.		while (starting_node.next is not null)
+	7.			if starting_node.key == key
+	8.				starting_node.value = value
+					< if key exists already then modify the value
+	9.				return
+	10.			starting_node = starting_node.next
+	11.		starting_node.next = new Node(key, value)
+*/
 func (h *SymbolTable) Insert(key string, value string) {
 	index := getIndex(key)
 
+	// Check if this index is vacant
 	if h.Data[index] == nil {
-		// index is empty, go ahead and insert
 		h.Data[index] = &Node{Key: key, Value: value}
 	} else {
-		// there is a collision, get into linked-list mode
 		startingNode := h.Data[index]
 		for ; startingNode.Next != nil; startingNode = startingNode.Next {
+			// If there is a collision, if key exists already then modify the value. If not, append.
 			if startingNode.Key == key {
-				// the key exists, it's a modifying operation
 				startingNode.Value = value
 				return
 			}

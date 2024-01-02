@@ -92,7 +92,6 @@ func help() {
 	Commands:
 		$ postfix input 		- input a Postfix++ expression
 		$ postfix print 		- prints the current state of stack
-		$ postfix variables  	- prints current variables
 		$ postfix clear  		- clears the current session purging the variables
 	Usage:
 		$ postfix input <expression_item> <expression_item> ... <expression_item>

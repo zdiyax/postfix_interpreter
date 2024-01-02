@@ -123,6 +123,10 @@ func (s *Session) Print() {
 func (s *Session) Clear() {
 	s.Stack = NewStack()
 	s.Variables = NewSymbolTable()
+	err := os.Remove("session.json")
+	if err != nil {
+		panic("cannot rm session.json")
+	}
 }
 
 //	Utility methods				//
