@@ -60,12 +60,13 @@ func RunInterpreter() {
 
 	switch command {
 	case "input":
+		// a little spinner to indicate work in progress
+		// sleeping for a second-two to imitate
+		calculationSpinner.Start()
+		time.Sleep(1 * time.Second)
+
 		session.Input(args[1:])
 	case "print":
-		// a little spinner to indicate work in progress
-		calculationSpinner.Start()
-		// sleeping for a second-two to imitate
-		time.Sleep(2 * time.Second)
 		session.Print()
 	case "clear":
 		// a little spinner to indicate work in progress
