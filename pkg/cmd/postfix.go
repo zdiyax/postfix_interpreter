@@ -39,7 +39,7 @@ func RunInterpreter() {
 	jsonFile, err := os.Open("session.json")
 	if err != nil {
 		session = NewSession()
-		Black.Println("no session, opening a new one")
+		fmt.Println("no session, opening a new one")
 	} else {
 		time.Sleep(1 * time.Second)
 

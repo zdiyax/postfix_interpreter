@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -105,7 +106,7 @@ func (s *Session) Input(expression []string) {
 func (s *Session) Print() {
 	// Result is calculated by unpacking the Stack and doing all the operations
 	tempStack := *s.Stack
-	Black.Printf("[ ")
+	fmt.Printf("[ ")
 
 	for !tempStack.IsEmpty() {
 		pop, exists := tempStack.Pop()
@@ -113,10 +114,10 @@ func (s *Session) Print() {
 			break
 		}
 
-		Black.Printf(pop + " ")
+		fmt.Printf(pop + " ")
 
 	}
-	Black.Printf("]\n")
+	fmt.Printf("]\n")
 }
 
 // Clear purges the session, reinstantiating the stack and symbol table
