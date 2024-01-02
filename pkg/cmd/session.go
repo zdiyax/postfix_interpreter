@@ -35,6 +35,24 @@ func NewSession() *Session {
 //	Method implementation					//
 //
 // Input iterates over the expression tokens to do the interpretation
+/*
+	INPUT(expression):
+	1. for token := expression
+	2. 		if token is number
+	3.			stack.push(token)
+	4.		if token is operator
+	5.			operand1 = stack.pop()
+	6.			operand2 = stack.pop()
+	7.			switch (token)
+	8.				case "+": stack.push(operand1 + operand2)
+	9.				case "-": stack.push(operand1 - operand2)
+	10.				case "*": stack.push(operand1 * operand2)
+	11.				case "/": stack.push(operand1 / operand2)
+	12.				case "=":
+	13.					symbol_table.insert(operand2, operand1)
+	14.		if token.size == 1 and token in 'A' to 'Z'
+	15.			stack.push(token)
+*/
 func (s *Session) Input(expression []string) {
 	for _, token := range expression {
 		// If conversion error is nil it is a value, and we can put it in the Stack.
@@ -103,7 +121,7 @@ func (s *Session) Input(expression []string) {
 	}
 }
 
-// Print prints the current content of the stack
+// PrintStack prints the current content of the stack
 func (s *Session) PrintStack() {
 	// Result is calculated by unpacking the Stack and doing all the operations
 	tempStack := *s.Stack
@@ -121,7 +139,7 @@ func (s *Session) PrintStack() {
 	fmt.Printf("]\n")
 }
 
-// Print prints the current content of the stack
+// PrintSymbolTable prints the current variables in the state
 func (s *Session) PrintSymbolTable() {
 	fmt.Print(s.Variables.String())
 }
