@@ -75,6 +75,9 @@ func RunInterpreter() {
 		time.Sleep(1 * time.Second)
 		session.Clear()
 		return
+	case "help":
+		help()
+		time.Sleep(1 * time.Second)
 	default:
 		boldRed.Println(args[0], "command is not found, try using help")
 		return

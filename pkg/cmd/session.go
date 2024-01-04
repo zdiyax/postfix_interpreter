@@ -106,6 +106,7 @@ func (s *Session) Input(expression []string) {
 				case "=":
 					// do an assignment here
 					s.AssignValueToAVariable(stringValue2, stringValue1)
+					s.PrintStack()
 				default:
 					Red.Println("the following operator is not supported:", token)
 					return
